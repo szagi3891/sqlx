@@ -10,7 +10,8 @@ struct EnvConfig {
 struct TodoModel {
     id: i64,
     description: String,
-    done: bool
+    done: bool,
+    author: i32,
 }
 
 #[tokio::main]
@@ -37,15 +38,17 @@ async fn main() {
     let nowy_model = sqlx::query_as!(TodoModel, 
         r#"
             INSERT INTO
-                todos (description, done)
+                todos (description, done, author)
             VALUES
-                ($1, $2)
+                ($1, $2, $3)
             RETURNING
                 *
         "#,
         "dsadsasa",
-        false
+        false,
+        555
     ).fetch_one(&sqlx_pool).await.unwrap();
+
 
     println!("wstawiono model {nowy_model:#?}");
 
