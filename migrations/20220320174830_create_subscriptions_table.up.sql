@@ -6,7 +6,7 @@ CREATE TABLE subscriptions(
    email TEXT NOT NULL UNIQUE,
    name TEXT NOT NULL,
    subscribed_at timestamptz NOT NULL,
-   age integer not null,
-   age2 integer not null
+   sub integer not null,
+   sub2 integer not null
 );
 

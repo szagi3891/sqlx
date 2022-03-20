@@ -6,6 +6,13 @@ struct EnvConfig {
     database_url: String
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct TodoModel {
+    id: i64,
+    description: String,
+    done: bool
+}
+
 #[tokio::main]
 async fn main() {
     println!("Hello, world!");
@@ -25,7 +32,22 @@ async fn main() {
         .run(&sqlx_pool)
         .await.unwrap();
 
-    println!("wykonano migracę");
+    println!("wykonano migracę 2");
 
+    let nowy_model = sqlx::query_as!(TodoModel, 
+        r#"
+            INSERT INTO
+                todos (description, done)
+            VALUES
+                ($1, $2)
+            RETURNING
+                *
+        "#,
+        "dsadsasa",
+        false
+    ).fetch_one(&sqlx_pool).await.unwrap();
 
+    println!("wstawiono model {nowy_model:#?}");
+
+    // todo!()
 }
